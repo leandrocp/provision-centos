@@ -1,0 +1,14 @@
+- hosts: all
+  gather_facts: False
+  remote_user: root
+  tasks:
+    - name: install python-simplejson
+      action: raw yum -y install python-simplejson
+
+- hosts: all
+  remote_user: root
+  roles:
+    - repository
+    - java
+    - jboss
+

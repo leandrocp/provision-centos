@@ -1,0 +1,30 @@
+---
+- name: download jdk
+  get_url: url=https://dl.dropboxusercontent.com/u/176149/jdk-7u51-linux-x64.rpm dest=~/jdk.rpm force=no
+
+- name: install jdk
+  yum: name=/root/jdk.rpm disable_gpg_check=yes
+
+- name: set java link
+  shell: alternatives --install /usr/bin/java java /usr/java/jdk1.7.0_51/bin/java 20000
+
+- name: set javac link
+  shell: alternatives --install /usr/bin/javac javac /usr/java/jdk1.7.0_51/bin/javac 20000
+
+- name: set javaws link
+  shell: alternatives --install /usr/bin/javaws javaws /usr/java/jdk1.7.0_51/bin/javaws 20000
+
+- name: set jar link
+  shell: alternatives --install /usr/bin/jar jar /usr/java/jdk1.7.0_51/bin/jar 20000
+
+- name: set java bin
+  shell: alternatives --set java /usr/java/jdk1.7.0_51/bin/java
+
+- name: set javac bin
+  shell: alternatives --set javac /usr/java/jdk1.7.0_51/bin/javac
+
+- name: set javaws bin
+  shell: alternatives --set javaws /usr/java/jdk1.7.0_51/bin/javaws
+
+- name: set jar bin
+  shell: alternatives --set jar /usr/java/jdk1.7.0_51/bin/jar

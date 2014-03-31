@@ -1,0 +1,41 @@
+---
+- name: download jboss
+  get_url: url=http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.tar.gz dest=/root/jboss.tar.gz force=no
+
+- name: unpack jboss
+  shell: tar -C /usr/share -xf /root/jboss.tar.gz
+
+- name: move jboss_home dir
+  shell: mv -v /usr/share/jboss-as-7.1.1.Final /usr/share/jboss-as
+
+- name: create jboss group
+  group: name=jboss
+
+- name: create jboss user
+  user: name=jboss group=jboss
+
+- name: copy init.d script
+  shell: cp -v /usr/share/jboss-as/bin/init.d/jboss-as-standalone.sh /etc/init.d/jboss-as
+
+- name: make init.d script executable
+  shell: chmod +x /etc/init.d/jboss-as
+
+- name: enable jboss-as service at boot
+  service: name=jboss-as enabled=yes
+
+- name: change ip public
+  shell: sed -i -e's/127.0.0.1/0.0.0.0/' /usr/share/jboss-as/standalone/configuration/standalone.xml
+
+- name: create jboss-as config dir
+  shell: mkdir -p /etc/jboss-as
+
+- name: set jboss config
+  template: src=jboss-as.conf.j2 dest=/etc/jboss-as/jboss-as.conf
+
+- name: set permissions
+  file: path=/usr/share/jboss-as owner=jboss group=jboss
+
+- name: add chkconfig
+  shell: chkconfig --add jboss-as
+  notify: restart jboss-as
+

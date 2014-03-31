@@ -1,0 +1,5 @@
+- name: restart jboss-as
+  service: name=jboss-as state=restarted enabled=yes
+
+- name: reload jboss-as
+  service: name=jboss-as state=reloaded

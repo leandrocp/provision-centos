@@ -1,0 +1,6 @@
+# database
+postgresql_version: 9.3
+db_user: user
+db_user_pass: pass
+db_name: pass
+
